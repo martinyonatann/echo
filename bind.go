@@ -67,7 +67,7 @@ func (b *DefaultBinder) BindQueryParams(c Context, i interface{}) error {
 // See MIMEMultipartForm: https://golang.org/pkg/net/http/#Request.ParseMultipartForm
 func (b *DefaultBinder) BindBody(c Context, i interface{}) (err error) {
 	req := c.Request()
-	if req.ContentLength <= 0 {
+	if req.ContentLength == 0 {
 		return
 	}
 
@@ -269,7 +269,7 @@ func (b *DefaultBinder) bindData(destination interface{}, data map[string][]stri
 			continue
 		}
 
-		// we could be dealing with pointer to slice `*[]string` so dereference it. There are wierd OpenAPI generators
+		// we could be dealing with pointer to slice `*[]string` so dereference it. There are weird OpenAPI generators
 		// that could create struct fields like that.
 		if structFieldKind == reflect.Pointer {
 			structFieldKind = structField.Elem().Kind()
